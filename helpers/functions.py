@@ -31,6 +31,17 @@ def process_age(df):
     return df
 
 
+def process_sibsp_parch(df):
+    return (df.assign(sibsp_cat=pd.cut(df['SibSp'],
+                                       [-1, 3, 10],
+                                       labels=['less_than_3', 'greater_than_3']),
+                      parch_cat=pd.cut(df['SibSp'],
+                                       [-1, 4, 10],
+                                       labels=[f'less_than_3', f'greater_than_3'])
+                      )
+            )
+
+
 def process_fare(df):
     """Process the Fare column into pre-defined 'bins' 
 
