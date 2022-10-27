@@ -16,7 +16,7 @@ def process_missing(df):
 
 
 def process_age(df):
-    """Process the Age column into pre-defined 'bins' 
+    """Process the Age column into pre-defined 'bins'
 
     Usage
     ------
@@ -31,19 +31,15 @@ def process_age(df):
     return df
 
 
-def process_sibsp_parch(df):
-    return (df.assign(sibsp_cat=pd.cut(df['SibSp'],
-                                       [-1, 3, 10],
-                                       labels=['less_than_3', 'greater_than_3']),
-                      parch_cat=pd.cut(df['SibSp'],
-                                       [-1, 4, 10],
-                                       labels=[f'less_than_3', f'greater_than_3'])
-                      )
-            )
+def small_fam(df):
+    small_fam_dummies = pd.get_dummies(
+        ((df.SibSp < 2) & (df.Parch < 2)), prefix='small_fam').small_fam_True
+
+    return (df.assign(small_fam=small_fam_dummies))
 
 
 def process_fare(df):
-    """Process the Fare column into pre-defined 'bins' 
+    """Process the Fare column into pre-defined 'bins'
 
     Usage
     ------
@@ -57,7 +53,7 @@ def process_fare(df):
 
 
 def process_cabin(df):
-    """Process the Cabin column into pre-defined 'bins' 
+    """Process the Cabin column into pre-defined 'bins'
 
     Usage
     ------
@@ -71,7 +67,7 @@ def process_cabin(df):
 
 
 def process_titles(df):
-    """Extract and categorize the title from the name column 
+    """Extract and categorize the title from the name column
 
     Usage
     ------
